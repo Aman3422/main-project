@@ -1,0 +1,116 @@
+<body style="background-color:whitesmoke;background-image: url(../../assets/bg6.jpg); background-repeat: no-repeat;background-size:cover;width:100%">
+    <br>
+    <h1 style="margin-top:-15px;margin-left: 40%;">Medication List</h1>
+    <div class="container-fluid">
+        <!-- Search Form -->
+        <div class="row align-items-center mb-3">
+            <!-- Name Input -->
+            <div class="col-lg-2">
+                <label for="nameInput">Full Name:</label>
+                <input id="nameInput" [(ngModel)]="form.fullName" name="fullName" placeholder="Enter name" class="form-control">
+                <span style="color:Red">{{ inputError.fullName }}</span>
+            </div>
+
+            <!-- Expertise Select -->
+            <div class="col-lg-2">
+                <label for="expertiseSelect">Illness:</label>
+                <select id="expertiseSelect" [(ngModel)]="form.mid" name="mid" class="form-control">
+                    <option value="0">Select illness</option>
+                    <option *ngFor="let r of preloadData" value="{{ r.mid }}">{{ r.illness }}</option>
+                </select>
+                <span style="color:Red">{{ inputError.mid }}</span>
+            </div>
+
+            <!-- Date of Birth Input -->
+            <div class="col-lg-2">
+                <label for="dobInput">Prescription Date</label>
+                <input id="dobInput" [(ngModel)]="form.prescriptionDate" type="date" name="prescriptionDate" class="form-control">
+                <span style="color:Red">{{ inputError.prescriptionDate }}</span>
+            </div>
+
+            <!-- Mobile Input -->
+            <div class="col-lg-2">
+                <label for="mobileInput">Dosage:</label>
+                <input id="mobileInput" [(ngModel)]="form.dosage" name="dosage" placeholder="Enter Dosage" class="form-control">
+                <span style="color:Red">{{ inputError.dosage }}</span>
+            </div>
+
+            <!-- Search Button -->
+            <div class="col-lg-2">
+                <label>&nbsp;</label> <!-- Empty label for spacing -->
+                <button (click)="submit()" type="submit" class="btn btn-primary w-100">Search <i class="fa fa-search"></i></button>
+            </div>
+        </div>
+
+        <!-- Success/Failure Message -->
+        <div *ngIf="success == true; then SUCC else FAIL"></div>
+        <ng-template #SUCC>
+            <b style="color:green;margin-left:33%;font-size:x-large;" id="timeout">{{ message }}</b>
+        </ng-template>
+        <ng-template #FAIL>
+            <b style="color:red;margin-left:33%;font-size: x-large;" id="timeout">{{ message }}</b>
+        </ng-template>
+
+        <!-- Medication List Table -->
+        <table class="table table-bordered border-dark table-sm table-hover table-responsive-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th>S.No.</th>
+                    <th>Full Name</th>
+                    <th>Illness</th>
+                    <th>prescription Date</th>
+                    <th>Dosage</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let e of list; let i = index;">
+                    <td>{{ form.index + i }}</td>
+                    <td>{{ e.fullName }}</td>
+                    <td>{{ e.illness }}</td>
+                    <td>{{ e.prescriptionDate }}</td>
+                    <td>{{ e.dosage }}</td>
+                    <td><button (click)="edit(e.id)" class="btn btn-link text-primary">Edit <i class="fa fa-edit"></i></button></td>
+                    <td><button (click)="delete(e.id)" class="btn btn-link text-danger">Delete <i class="fa fa-trash"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination Controls -->
+        <div *ngIf="form.mesg == ''; then EPAG else DPAG"><div *ngIf="form.mesg == null; then DPAG else EPAG"></div></div>
+
+        <ng-template #EPAG>
+            <div class="row">
+                <!-- Previous Button -->
+                <div class="col-lg-1">
+                    <div *ngIf="form.pageNo == 1; then PD else PE;"></div>
+                    <ng-template #PD><button disabled (click)="previous()" class="btn btn-dark">Previous</button></ng-template>
+                    <ng-template #PE><button (click)="previous()" class="btn btn-primary">Previous</button></ng-template>
+                </div>
+                
+                <div class="col-lg-4"></div>
+
+                <!-- Add Button -->
+                <div class="col-lg-1">
+                    <a [routerLink]="['/medication']" class="btn btn-primary">Add</a>
+                </div>
+
+                <div class="col-lg-5"></div>
+
+                <!-- Next Button -->
+                <div class="col-lg-1">
+                    <div *ngIf="list.length < 5 || form.MaxId == form.LastId; then ND else NE;"></div>
+                    <ng-template #ND><button disabled (click)="next()" class="btn btn-dark">Next</button></ng-template>
+                    <ng-template #NE><button (click)="next()" class="btn btn-primary">Next</button></ng-template>
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- No Data or Error State -->
+        <ng-template #DPAG>
+            <b style="margin-left:40%;font-size: x-large;">{{ form.mesg }}</b>
+            <button (click)="reload()" class="btn btn-primary" style="margin-left:45%;">Back</button>
+        </ng-template>
+    </div>
+</body>

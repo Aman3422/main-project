@@ -1,0 +1,118 @@
+<body style="background-color:whitesmoke;background-image: url(../../assets/bg6.jpg); background-repeat: no-repeat;background-size:cover;width:100%">
+    <br>
+    <h1 style="margin-top:-15px;margin-left: 40%;">Doctor List</h1>
+    <div class="container-fluid">
+        <!-- Search Form -->
+        <div class="row align-items-center mb-3">
+            <!-- Name Input -->
+            <div class="col-lg-2">
+                <label for="nameInput">Full Name:</label>
+                <input id="nameInput" [(ngModel)]="form.fullName" name="fullName" placeholder="Enter name" class="form-control">
+                <span style="color:Red">{{ inputError.fullName }}</span>
+            </div>
+
+            <!-- <div class="col-lg-2">
+                <label for="nameInput">Full Name:</label>
+                <input id="nameInput" [(ngModel)]="form.fullName" name="fullName" placeholder="Enter name" class="form-control">
+                <span style="color:Red">{{ inputError.fullName }}</span>
+            </div> -->
+
+            <div class="col-lg-2">
+                <label for="nameInput">User Name:</label>
+                <input id="nameInput" [(ngModel)]="form.username" name="fullName" type="email" placeholder="Enter name" class="form-control">
+                <span style="color:Red">{{ inputError.username }}</span>
+            </div>
+
+            
+            <div class="col-lg-2">
+                <label for="dobInput">Date of Birth:</label>
+                <input id="dobInput" [(ngModel)]="form.dob" type="date" name="dob" class="form-control">
+                <span style="color:Red">{{ inputError.dob }}</span>
+            </div>
+
+            <!-- Mobile Input -->
+            <div class="col-lg-2">
+                <label for="mobileInput">Contact Number:</label>
+                <input id="mobileInput" [(ngModel)]="form.number" name="number" placeholder="Enter Contact Number" class="form-control">
+                <span style="color:Red">{{ inputError.number }}</span>
+            </div>
+
+            <!-- Search Button -->
+            <div class="col-lg-2">
+                <label>&nbsp;</label> <!-- Empty label for spacing -->
+                <button (click)="submit()" type="submit" class="btn btn-primary w-100">Search <i class="fa fa-search"></i></button>
+            </div>
+        </div>
+
+        <!-- Success/Failure Message -->
+        <div *ngIf="success == true; then SUCC else FAIL"></div>
+        <ng-template #SUCC>
+            <b style="color:green;margin-left:33%;font-size:x-large;" id="timeout">{{ message }}</b>
+        </ng-template>
+        <ng-template #FAIL>
+            <b style="color:red;margin-left:33%;font-size: x-large;" id="timeout">{{ message }}</b>
+        </ng-template>
+
+        <!-- Doctor List Table -->
+        <table class="table table-bordered border-dark table-sm table-hover table-responsive-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th>S.No.</th>
+                    <th>Full Name</th>
+                    <th>User Name</th>
+                    <th>Date of Birth</th>
+                    <th>Contact Number</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let e of list; let i = index;">
+                    <td>{{ form.index + i }}</td>
+                    <td>{{ e.fullName }}</td>
+                    <td>{{ e.username }}</td>
+                    <td>{{ e.dob }}</td>
+                    <td>{{ e.number }}</td>
+                    <td><button (click)="edit(e.id)" class="btn btn-link text-primary">Edit <i class="fa fa-edit"></i></button></td>
+                    <td><button (click)="delete(e.id)" class="btn btn-link text-danger">Delete <i class="fa fa-trash"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination Controls -->
+        <div *ngIf="form.mesg == ''; then EPAG else DPAG"><div *ngIf="form.mesg == null; then DPAG else EPAG"></div></div>
+
+        <ng-template #EPAG>
+            <div class="row">
+                <!-- Previous Button -->
+                <div class="col-lg-1">
+                    <div *ngIf="form.pageNo == 1; then PD else PE;"></div>
+                    <ng-template #PD><button disabled (click)="previous()" class="btn btn-dark">Previous</button></ng-template>
+                    <ng-template #PE><button (click)="previous()" class="btn btn-primary">Previous</button></ng-template>
+                </div>
+                
+                <div class="col-lg-4"></div>
+
+                <!-- Add Button -->
+                <div class="col-lg-1">
+                    <a [routerLink]="['/employee']" class="btn btn-primary">Add</a>
+                </div>
+
+                <div class="col-lg-5"></div>
+
+                <!-- Next Button -->
+                <div class="col-lg-1">
+                    <div *ngIf="list.length < 5 || form.MaxId == form.LastId; then ND else NE;"></div>
+                    <ng-template #ND><button disabled (click)="next()" class="btn btn-dark">Next</button></ng-template>
+                    <ng-template #NE><button (click)="next()" class="btn btn-primary">Next</button></ng-template>
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- No Data or Error State -->
+        <ng-template #DPAG>
+            <b style="margin-left:40%;font-size: x-large;">{{ form.mesg }}</b>
+            <button (click)="reload()" class="btn btn-primary" style="margin-left:45%;">Back</button>
+        </ng-template>
+    </div>
+</body>

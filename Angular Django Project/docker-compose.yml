@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  frontend:
+    build:
+      context: ./Angular1_project\my_project
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+
+  backend:
+    build:
+      context: ./sop_django\sop_django
+      dockerfile: Dockerfile  # Adjust Dockerfile name if necessary
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./sop_django\sop_django:/app  # Mount the SOS directory into the /app directory inside the container
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=sop_django
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_PORT=3306
+
+  db:
+    image: mysql:8.0
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: sop_django
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"  # Map host port 3307 to container port 3306
+
+volumes:
+  mysql_data:

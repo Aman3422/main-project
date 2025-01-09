@@ -1,0 +1,73 @@
+
+<body style="background-color:whitesmoke;background-image: url(../../assets/bg7.jpg);
+background-repeat: no-repeat;background-size: cover;width: 100%;">
+<br><br>
+
+<div class="modal-dialog" style="width: 500px;">
+    <div class="modal-content" style="background-color: whitesmoke;
+    background-image: url(../../assets/bg10.webp);background-repeat:no-repeat;background-size: cover;">
+        <div class="modal-header text-center">
+            <h4 class="modal-name" style="font-family: bold;font-size: xx-large;margin-left:170px;">Owner
+            </h4>
+        </div>
+        <div *ngIf="success == true;then SUCC else FAIL"></div>
+        <ng-template #SUCC><b style="color:green;text-align: center;font-size: x-large;">{{ message }}</b></ng-template>
+        <ng-template #FAIL><b style="color:red;text-align: center;font-size: x-large;">{{ message }}</b></ng-template>
+
+        <form>
+        <div class="modal-body" style="padding: 10px;">
+            
+            <div class="form-group row">
+                <div class="col-lg-1"></div>
+                <label class="col-lg-3 form-control-label">Name<span style="color:Red">*</span></label>
+                <div class="col-lg-6">
+                    <input [(ngModel)]="form.name" name="name" type="text" placeholder="Enter your name">
+                    <span style="color:red">{{ inputError.name }}</span>
+                </div>
+            </div>                          
+            <div class="form-group row">
+                <div class="col-lg-1"></div>
+                <label class="col-lg-3 form-control-label">DOB<span style="color:Red">*</span></label>
+                <div class="col-lg-6">
+                    <select [(ngModel)]="form.did" name="did" style="width: 200px;height:30px;">
+                        <option *ngFor="let r of preloadData"  value="{{ r.did}}">{{ r.dob }}</option>
+                        </select>
+                    <span style="color:red">{{ inputError.did }}</span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-1"></div>
+                <label class="col-lg-3 form-control-label">VehicleId<span style="color:Red">*</span></label>
+                <div class="col-lg-6">
+                    <select [(ngModel)]="form.vid" name="vid" style="width: 200px;height:30px;">
+                        <option *ngFor="let r of preloadData1"  value="{{ r.vid}}">{{ r.vehicleId }}</option>
+                        </select>
+                    <span style="color:red">{{ inputError.vid }}</span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-1"></div>
+                <label class="col-lg-3 form-control-label">Insurance Amount<span style="color:Red">*</span></label>
+                <div class="col-lg-6">
+                    <input [(ngModel)]="form.insuranceAmount" name="insuranceAmount" type="number" placeholder="Enter insuranceAmount">
+                    <span style="color:red">{{ inputError.insuranceAmount }}</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-3">
+                    <button (click)="save()" type="submit" class="btn btn-success form-control">Save</button>
+                </div>
+                <div class="col-lg-3">
+                    <button (click)="reset()" class="btn btn-primary form-control">Reset</button>
+                </div>
+            </div>
+
+        </div>
+        </form>
+
+    </div>
+</div>
+
+</body>

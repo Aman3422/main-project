@@ -1,0 +1,107 @@
+<body style="background-color:whitesmoke;background-image: url(../../assets/bg6.jpg); background-repeat: no-repeat;background-size:cover;width:100%">
+    <br>
+    <h1 style="margin-top:-15px;margin-left: 40%;">Doctor List</h1>
+    <div class="container-fluid">
+        <!-- Search Form -->
+        <div class="row align-items-center mb-3">
+            <!-- Name Input -->
+            <div class="col-lg-2">
+                <label for="nameInput">Initiative Name:</label>
+                <input id="nameInput" [(ngModel)]="form.initiativeName" name="initiativeName" placeholder="Enter Display Name" class="form-control">
+                <span style="color:red">{{ inputError.initiativeName }}</span>
+            </div>
+
+            <!-- Data Type Select -->
+            <div class="col-lg-2">
+                <label for="expertiseSelect">Data Types:</label>
+                <select id="expertiseSelect" [(ngModel)]="form.did" name="did" class="form-control">
+                    <option value="0">Select Data Type</option>
+                    <option *ngFor="let r of preloadData" [value]="r.did">{{ r.type }}</option>
+                </select>
+                <span style="color:red">{{ inputError.did }}</span>
+            </div>
+
+            <!-- Date of Start Input -->
+            <div class="col-lg-2">
+                <label for="dobInput">Date of Start:</label>
+                <input id="dobInput" [(ngModel)]="form.startDate" type="date" name="startDate" class="form-control">
+                <span style="color:Red">{{ inputError.startDate }}</span>
+            </div>
+             
+            <!-- Search Button -->
+            <div class="col-lg-2">
+                <label>&nbsp;</label> <!-- Empty label for spacing -->
+                <button (click)="submit()" type="submit" class="btn btn-primary w-100">Search <i class="fa fa-search"></i></button>
+            </div>
+        </div>
+
+        <!-- Success/Failure Message -->
+        <div *ngIf="success; then SUCC else FAIL"></div>
+        <ng-template #SUCC>
+            <b style="color:green;margin-left:33%;font-size:x-large;" id="timeout">{{ message }}</b>
+        </ng-template>
+        <ng-template #FAIL>
+            <b style="color:red;margin-left:33%;font-size:x-large;" id="timeout">{{ message }}</b>
+        </ng-template>
+
+        <!-- Doctor List Table -->
+        <table class="table table-bordered border-dark table-sm table-hover table-responsive-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th>S.No.</th>
+                    <th>Initiative Name</th>
+                    <th>Type</th>
+                    <th>Start Date</th>
+                    <!-- <th>Description</th> -->
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let e of list; let i = index;">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ e.initiativeName }}</td>
+                    <td>{{ e.type }}</td>
+                    <td>{{ e.startDate }}</td>
+                    <!-- <td>{{ e.description }}</td> -->
+                    <td><button (click)="edit(e.id)" class="btn btn-link text-primary">Edit <i class="fa fa-edit"></i></button></td>
+                    <td><button (click)="delete(e.id)" class="btn btn-link text-danger">Delete <i class="fa fa-trash"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination Controls -->
+        <div *ngIf="!form.mesg; then EPAG else DPAG"></div>
+
+        <ng-template #EPAG>
+            <div class="row">
+                <!-- Previous Button -->
+                <div class="col-lg-1">
+                    <button [disabled]="form.pageNo === 1" (click)="previous()" 
+                        [ngClass]="{'btn-dark': form.pageNo === 1, 'btn-primary': form.pageNo !== 1}">Previous</button>
+                </div>
+
+                <div class="col-lg-4"></div>
+
+                <!-- Add Button -->
+                <div class="col-lg-1">
+                    <a [routerLink]="['/initiative']" class="btn btn-primary">Add</a>
+                </div>
+
+                <div class="col-lg-5"></div>
+
+                <!-- Next Button -->
+                <div class="col-lg-1">
+                    <button [disabled]="list.length < 5 || form.MaxId === form.LastId" (click)="next()" 
+                        [ngClass]="{'btn-dark': list.length < 5 || form.MaxId === form.LastId, 'btn-primary': !(list.length < 5 || form.MaxId === form.LastId)}">Next</button>
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- No Data or Error State -->
+        <ng-template #DPAG>
+            <b style="margin-left:40%;font-size: x-large;">{{ form.mesg }}</b>
+            <button (click)="reload()" class="btn btn-primary" style="margin-left:45%;">Back</button>
+        </ng-template>
+    </div>
+</body>

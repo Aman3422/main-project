@@ -1,0 +1,92 @@
+<body style="background-color:whitesmoke; background-image: url(../../assets/bg7.jpg); background-repeat: no-repeat; background-size: cover; width: 100%;">
+    <br><br>
+
+    <div class="modal-dialog" style="width: 500px;">
+        <div class="modal-content" style="background-color: whitesmoke; background-image: url(../../assets/bg10.webp); background-repeat: no-repeat; background-size: cover;">
+            
+            <!-- Modal Header -->
+            <div class="modal-header text-center">
+                <h4 class="modal-title" style="font-family: bold; font-size: xx-large; margin-left: 170px;">Attribute</h4>
+            </div>
+
+            <!-- Success/Failure Messages -->
+            <div *ngIf="success; then SUCC else FAIL"></div>
+            <ng-template #SUCC>
+                <b style="color: green; text-align: center; font-size: x-large;">{{ message }}</b>
+            </ng-template>
+            <ng-template #FAIL>
+                <b style="color: red; text-align: center; font-size: x-large;">{{ message }}</b>
+            </ng-template>
+
+            <!-- Form -->
+            <form>
+                <div class="modal-body" style="padding: 10px;">
+
+                    <!-- Display Name Input -->
+                    <div class="form-group row">
+                        <div class="col-lg-1"></div>
+                        <label class="col-lg-3 form-control-label">Display Name<span style="color: Red">*</span></label>
+                        <div class="col-lg-6">
+                            <input [(ngModel)]="form.displayName" name="displayName" placeholder="Enter name" class="form-control">
+                            <span style="color:red">{{ inputError.displayName }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Data Type Input -->
+                    <div class="form-group row">
+                        <div class="col-lg-1"></div>
+                        <label class="col-lg-3 form-control-label">Data Type<span style="color: Red">*</span></label>
+                        <div class="col-lg-6">
+                            <select [(ngModel)]="form.did" name="did" class="form-control" style="width: 200px; height: 30px;">
+                                <option *ngFor="let r of preloadData" [value]="r.did">{{ r.dataType }}</option>
+                            </select>
+                            <span style="color:red">{{ inputError.did }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Is Active Input -->
+                    <!-- Is Active Input -->
+<div class="form-group row">
+    <div class="col-lg-1"></div>
+    <label class="col-lg-3 form-control-label">Is Active<span style="color: Red">*</span></label>
+    <div class="col-lg-6">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" [(ngModel)]="form.isActive" name="isActive" value="yes" id="isActiveYes">
+            <label class="form-check-label" for="isActiveYes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" [(ngModel)]="form.isActive" name="isActive" value="no" id="isActiveNo">
+            <label class="form-check-label" for="isActiveNo">No</label>
+        </div>
+        <span style="color:red">{{ inputError.isActive }}</span>
+    </div>
+</div>
+
+
+                    <!-- Description Input -->
+                    <div class="form-group row">
+                        <div class="col-lg-1"></div>
+                        <label class="col-lg-3 form-control-label">Description<span style="color: Red">*</span></label>
+                        <div class="col-lg-6">
+                            <textarea [(ngModel)]="form.description" name="description" placeholder="Enter your Details" class="form-control"></textarea>
+                            <span style="color:red">{{ inputError.description }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Save and Reset Buttons -->
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-3">
+                            <button (click)="save()" type="submit" class="btn btn-success form-control">Save</button>
+                        </div>
+                        <div class="col-lg-3">
+                            <button (click)="reset()" class="btn btn-primary form-control">Reset</button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
